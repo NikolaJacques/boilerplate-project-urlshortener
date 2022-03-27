@@ -7,7 +7,6 @@ const {Schema, model} = mongoose;
 autoIncrement = require('mongoose-auto-increment');
 const bodyParser = require('body-parser');
 const dns = require('dns');
-const { nextTick } = require('process');
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
@@ -40,8 +39,6 @@ app.use(bodyParser.json());
 
 // database
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-/* const connection = mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-autoIncrement.initialize(connection); */
 
 const urlSchema = new Schema({
   original_url: {
@@ -63,7 +60,6 @@ const autoNumberSchema = new Schema({
 
 const urlObject = model('urlObject', urlSchema);
 const autoNumberObject = model('autoNumberObject', autoNumberSchema);
-/* urlSchema.plugin(autoIncrement.plugin, { model: 'urlObject', field: 'short_url' }); */
 
 // initialize auto number
 /* initializeAutonumber = (done) => {
