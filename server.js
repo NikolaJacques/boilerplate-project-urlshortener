@@ -109,7 +109,7 @@ app
         res.json({ error: 'invalid url' })
       }
     })})
-    .post("/api/shorturl", (req, res) => {
+/*     .post("/api/shorturl", (req, res) => {
       createAndSaveDocument(req.url, (err, data) => {
           try {
             res.json(data);
@@ -118,7 +118,7 @@ app
             res.send("An error occured saving record")
           }
       })
-    }) 
+    }) */ 
 /*   .get("api/shorturl", (req, res) => {
 
   }) */
