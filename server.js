@@ -25,6 +25,8 @@ app.listen(port, function() {
   console.log(`Listening on port ${port}`);
 });
 
+// solution
+
 // parser middleware
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,7 +34,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-// solution
-app.post("/api/shorturl", (req, res) => {
+// database
+
+
+// request handlers
+app
+  .post("/api/shorturl", (req, res) => {
+
+})
+  .get("api/shorturl", (req, res) => {
 
 })
