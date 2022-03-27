@@ -40,7 +40,7 @@ app.use(bodyParser.json());
 // database
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-/* const urlSchema = new Schema({
+const urlSchema = new Schema({
   original_url: {
     type: String,
     required: true
@@ -59,7 +59,7 @@ const autoNumberSchema = new Schema({
 });
 
 const urlObject = model('urlObject', urlSchema);
-const autoNumberObject = model('autoNumberObject', autoNumberSchema); */
+const autoNumberObject = model('autoNumberObject', autoNumberSchema);
 
 // initialize auto number
 /* initializeAutonumber = (done) => {
