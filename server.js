@@ -66,7 +66,7 @@ const autoNumberObject = model('autoNumberObject', autoNumberSchema);
 /* urlSchema.plugin(autoIncrement.plugin, { model: 'urlObject', field: 'short_url' }); */
 
 // initialize auto number
-initializeAutonumber = (done) => {
+/* initializeAutonumber = (done) => {
   const autoNumber = new autoNumberObject({
     autoNumber: 0
   });
@@ -125,4 +125,4 @@ app
     }) 
   .get("api/shorturl", (req, res) => {
 
-  })
+  }) */
