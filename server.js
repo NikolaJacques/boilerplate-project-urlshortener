@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const {Schema, model} = mongoose;
 autoIncrement = require('mongoose-auto-increment');
 const bodyParser = require('body-parser');
+const dns = require('dns');
+const { nextTick } = require('process');
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
@@ -88,29 +90,39 @@ updateAutoNumber = async (done) => {
   })
 };
 
-createAndSaveDocument = async (inputData, done) => {
-  const url = await new urlObject({
-    original_url: inputData.original_url,
-    short_url: await updateAutoNumber()
-  });
+createAndSaveDocument = async (inputObject, done) => {
+  const url = await new urlObject(inputObject);
   url.save((err, data) => {
     if (err) return done(err);
     done(null, data);
   });
 }
 
-generateAutoNumber = () => {
-  // lookup documents and extract max value of short_url
-}
-
 // request handlers
 app
-  .post("/api/shorturl", (req, res) => {
-    // validate url using dns.lookup
-    // create response object using generateAutoNumber for short_url 
-    // save object in database using createAndSaveDocument
-    // send response object 
-})
+  .post("/api/shorturl", async (req, res, next) => {
+    dns.lookup(req.body.url, () => {
+      try {
+        req.url = {
+          original_url: req.body.url,
+          short_url: await updateAutoNumber().autoNumber
+        };
+        next();
+      }
+      catch(err){
+        res.json({ error: 'invalid url' })
+      }
+    })})
+    .post("/api/shorturl", (req, res) => {
+      createAndSaveDocument(req.url, (err, data) => {
+          try {
+            res.json(data);
+          }
+          catch(err){
+            res.send("An error occured saving record")
+          }
+      })
+    }) 
   .get("api/shorturl", (req, res) => {
 
-})
+  })
