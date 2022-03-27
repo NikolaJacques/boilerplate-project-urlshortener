@@ -62,7 +62,7 @@ const urlObject = model('urlObject', urlSchema);
 const autoNumberObject = model('autoNumberObject', autoNumberSchema);
 
 // initialize auto number
-/* initializeAutonumber = (done) => {
+initializeAutonumber = (done) => {
   const autoNumber = new autoNumberObject({
     autoNumber: 0
   });
@@ -121,4 +121,4 @@ app
     }) 
   .get("api/shorturl", (req, res) => {
 
-  }) */
+  })
