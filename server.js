@@ -95,7 +95,7 @@ createAndSaveDocument = async (inputObject, done) => {
 }
 
 // request handlers
-app
+/* app
   .post("/api/shorturl", async (req, res, next) => {
     dns.lookup(req.body.url, () => {
       try {
@@ -121,4 +121,4 @@ app
     }) 
   .get("api/shorturl", (req, res) => {
 
-  })
+  }) */
