@@ -99,9 +99,10 @@ app
   .post("/api/shorturl", async (req, res, next) => {
     dns.lookup(req.body.url, () => {
       try {
+        const autoNum = await updateAutoNumber(); 
         req.url = {
           original_url: req.body.url,
-          short_url: await updateAutoNumber().autoNumber
+          short_url: autoNum.autoNumber
         };
         next();
       }
