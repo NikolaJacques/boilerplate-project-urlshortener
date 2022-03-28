@@ -62,7 +62,7 @@ const urlObject = model('urlObject', urlSchema);
 const autoNumberObject = model('autoNumberObject', autoNumberSchema);
 
 // initialize auto number
-initializeAutonumber = (done) => {
+initializeAutonumber = async (done) => {
   const autoNumber = new autoNumberObject({
     autoNumber: 0
   });
@@ -96,8 +96,8 @@ createAndSaveDocument = async (inputObject, done) => {
 
 // request handlers
 app
-  .post("/api/shorturl", async (req, res, next) => {
-    dns.lookup(req.body.url, () => {
+  .post("/api/shorturl", (req, res, next) => {
+    dns.lookup(req.body.url, async () => {
       try {
         const autoNum = await updateAutoNumber(); 
         req.url = {
