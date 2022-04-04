@@ -51,75 +51,50 @@ const urlSchema = new Schema({
   }
 });
 
-const autoNumberSchema = new Schema({
-  autoNumber: {
-    type: Number,
-    required: true
-  }
-});
-
 const urlObject = model('urlObject', urlSchema);
-const autoNumberObject = model('autoNumberObject', autoNumberSchema);
 
-// initialize auto number
-initializeAutonumber = async (done) => {
-  const autoNumber = new autoNumberObject({
-    autoNumber: 0
-  });
-  autoNumber.save((err, data) => {
-    if (err) return done(err);
-    done(null, data);
-  })
-};
-
-updateAutoNumber = async (done) => {
-  let updateValue;
-  const numberObject = await autoNumberObject.findOne();
-  if (!numberObject) {
-    updateValue = await initializeAutonumber().autoNumber;
-  } else {
-    updateValue = numberObject.autoNumber
+createAndSaveDocument = async (urlString) => {
+  try {  
+    const count = await urlObject.find().count();
+    const url = await new urlObject({
+      original_url: urlString,
+      short_url: count
+    });
+    url.save();
+    return url;
+  } catch (error) {
+    console.log(error.message);
   }
-  autoNumberObject.findOneAndUpdate({},{autoNumber: updateValue + 1}, {new: true}, (err, data) => {
-    if (err) return done(err);
-    done(null, data);
-  })
-};
-
-createAndSaveDocument = async (inputObject, done) => {
-  const url = await new urlObject(inputObject);
-  url.save((err, data) => {
-    if (err) return done(err);
-    done(null, data);
-  });
 }
 
 // request handlers
 app
-  .post("/api/shorturl", (req, res, next) => {
+  .post("/api/shorturl", (req, res) => {
+    console.log(req.body.url);
     dns.lookup(req.body.url, async () => {
       try {
-        const autoNum = await updateAutoNumber(); 
-        req.url = {
-          original_url: req.body.url,
-          short_url: autoNum.autoNumber
-        };
-        next();
+        const link = await urlObject.findOne({"original_url": req.body.url});
+        if (link === null){
+          req.link = await createAndSaveDocument(req.body.url);
+        } else {
+          req.link = link;
+        }
+        res.json(req.link);
       }
-      catch(err){
+      catch(error){
         res.json({ error: 'invalid url' })
       }
     })})
-/*     .post("/api/shorturl", (req, res) => {
-      createAndSaveDocument(req.url, (err, data) => {
-          try {
-            res.json(data);
-          }
-          catch(err){
-            res.send("An error occured saving record")
-          }
-      })
-    }) */ 
-/*   .get("api/shorturl", (req, res) => {
-
-  }) */
+    .get("/api/shorturl/:short_url", (req, res) => {
+      try {
+        const link = await urlObject.findOne({"short_url": req.body.short_url});
+        if (link === null){
+          throw Error;
+        } else {
+          res.json(link)
+        }
+      }
+      catch(error) {
+        res.json({ error: 'invalid short url' })
+      }
+    }) 
