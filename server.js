@@ -90,7 +90,7 @@ app
         res.json({ error: 'invalid url' })
       }
     })})
-    .get("/api/shorturl/:short_url", (req, res) => {
+    .get("/api/shorturl/:short_url", async (req, res) => {
       try {
         const link = await urlObject.findOne({"short_url": req.body.short_url});
         if (link === null){
@@ -102,4 +102,4 @@ app
       catch(error) {
         res.json({ error: 'invalid short url' })
       }
-    }) 
+    })
