@@ -97,8 +97,7 @@ app
         if (link === null){
           throw Error;
         } else {
-          const { original_url, short_url } = link;
-          res.json({original_url, short_url});
+          res.send(link.original_url);
         }
       }
       catch(error) {
