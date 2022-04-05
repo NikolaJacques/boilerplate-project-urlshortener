@@ -84,7 +84,8 @@ app
         } else {
           req.link = link;
         }
-        res.json(req.link);
+        const { original_url, short_url } = req.link;
+        res.json({original_url, short_url});
       }
       catch(error){
         res.json({ error: 'invalid url' })
@@ -96,7 +97,8 @@ app
         if (link === null){
           throw Error;
         } else {
-          res.json(link)
+          const { original_url, short_url } = link;
+          res.json({original_url, short_url});
         }
       }
       catch(error) {
