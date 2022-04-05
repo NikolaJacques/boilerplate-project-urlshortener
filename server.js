@@ -65,7 +65,7 @@ const createAndSaveDocument = async (urlString) => {
 // request handlers
 
 app
-  .post("/api/shorturl", (req, res) => {
+  .post("/api/shorturl", async (req, res) => {
       try {
         new URL(req.body.url);
         const link = await urlObject.findOne({"original_url": req.body.url});
