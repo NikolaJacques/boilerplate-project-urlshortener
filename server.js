@@ -93,7 +93,7 @@ app
     })})
     .get("/api/shorturl/:short_url", async (req, res) => {
       try {
-        const link = await urlObject.findOne({"short_url": req.body.short_url});
+        const link = await urlObject.findOne({"short_url": req.query.short_url});
         if (link === null){
           throw Error;
         } else {
