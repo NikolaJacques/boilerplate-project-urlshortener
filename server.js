@@ -97,7 +97,7 @@ app
         if (link === null){
           throw Error;
         } else {
-          res.send(link.original_url);
+          res.redirect(link.original_url);
         }
       }
       catch(error) {
