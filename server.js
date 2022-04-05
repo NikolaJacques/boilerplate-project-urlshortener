@@ -78,8 +78,7 @@ app
         res.json({original_url, short_url});
       }
       catch(error){
-        res.send(error.message);
-        // res.json({ error: 'invalid url' })
+        res.json({ error: 'invalid url' })
       }
     })
     .get("/api/shorturl/:short_url", async (req, res) => {
