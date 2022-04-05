@@ -76,7 +76,7 @@ const createAndSaveDocument = async (urlString) => {
 app
   .post("/api/shorturl", (req, res) => {
       try {
-        if (!/^(https?):\/\/www\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})$/.test(req.body.url)) {throw Error}
+        // if (!/^(https?):\/\/www\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})$/.test(req.body.url)) {throw Error}
         dns.lookup(req.body.url, async () => {
           const link = await urlObject.findOne({"original_url": req.body.url});
           if (link === null){
