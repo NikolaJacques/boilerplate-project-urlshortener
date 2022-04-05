@@ -67,7 +67,8 @@ const createAndSaveDocument = async (urlString) => {
 app
   .post("/api/shorturl", async (req, res) => {
       try {
-        new URL(req.body.url);
+        const url = new URL(req.body.url);
+        if (!['http:', 'https:'].includes(url.protocol)) throw Error;
         const link = await urlObject.findOne({"original_url": req.body.url});
         if (link === null){
           req.link = await createAndSaveDocument(req.body.url);
