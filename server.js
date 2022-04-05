@@ -53,7 +53,7 @@ const urlSchema = new Schema({
 
 const urlObject = model('urlObject', urlSchema);
 
-createAndSaveDocument = async (urlString) => {
+const createAndSaveDocument = async (urlString) => {
   try {  
     const count = await urlObject.find().count();
     const url = await new urlObject({
