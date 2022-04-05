@@ -67,20 +67,19 @@ const createAndSaveDocument = async (urlString) => {
 app
   .post("/api/shorturl", (req, res) => {
       try {
-        if (!/^(https?):\/\/www\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})$/.test(req.body.url)) {throw Error}
-        dns.lookup(req.body.url.hostname, async () => {
-          const link = await urlObject.findOne({"original_url": req.body.url});
-          if (link === null){
-            req.link = await createAndSaveDocument(req.body.url);
-          } else {
-            req.link = link;
-          }
-          const { original_url, short_url } = req.link;
-          res.json({original_url, short_url});
-        });
+        new URL(req.body.url);
+        const link = await urlObject.findOne({"original_url": req.body.url});
+        if (link === null){
+          req.link = await createAndSaveDocument(req.body.url);
+        } else {
+          req.link = link;
+        }
+        const { original_url, short_url } = req.link;
+        res.json({original_url, short_url});
       }
       catch(error){
-        res.json({ error: 'invalid url' })
+        res.send(error.message);
+        // res.json({ error: 'invalid url' })
       }
     })
     .get("/api/shorturl/:short_url", async (req, res) => {
